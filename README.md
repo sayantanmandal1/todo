@@ -1,6 +1,7 @@
 # Task Master - Modern To-Do Application
 
-![Task Master Screenshot](/api/placeholder/800/400)
+![image](https://github.com/user-attachments/assets/64c3dd14-4d9a-4b06-a77f-aa27f05eeac3)
+
 
 A sleek, modern, and aesthetically pleasing to-do list application with an animated 3D background and glass morphism design elements.
 

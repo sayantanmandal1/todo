@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aesthetic To-Do</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+    
+    body {
+      background: #060c21;
+      color: #fff;
+      overflow-x: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      overflow: hidden;
+    }
+    
+    .floating-cube {
+      position: absolute;
+      background: rgba(64, 162, 227, 0.1);
+      border: 1px solid rgba(64, 162, 227, 0.3);
+      border-radius: 10px;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 0 20px rgba(64, 162, 227, 0.2);
+      animation: float 20s infinite ease-in-out;
+      transform-style: preserve-3d;
+      transform: perspective(1000px) rotateX(45deg) rotateZ(45deg);
+    }
+    
+    .cube1 {
+      width: 300px;
+      height: 300px;
+      top: -100px;
+      left: -100px;
+      animation-delay: 0s;
+      opacity: 0.5;
+    }
+    
+    .cube2 {
+      width: 400px;
+      height: 400px;
+      bottom: -150px;
+      right: -150px;
+      animation-delay: -5s;
+      opacity: 0.3;
+    }
+    
+    .cube3 {
+      width: 200px;
+      height: 200px;
+      bottom: 100px;
+      left: 10%;
+      animation-delay: -10s;
+      opacity: 0.2;
+    }
+    
+    .cube4 {
+      width: 250px;
+      height: 250px;
+      top: 10%;
+      right: 10%;
+      animation-delay: -15s;
+      opacity: 0.4;
+    }
+    
+    @keyframes float {
+      0%, 100% {
+        transform: perspective(1000px) rotateX(45deg) rotateZ(45deg) translateY(0);
+      }
+      50% {
+        transform: perspective(1000px) rotateX(45deg) rotateZ(45deg) translateY(-40px);
+      }
+    }
+    
+    .container {
+      width: 90%;
+      max-width: 700px;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 25px 45px rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 40px;
+      overflow: hidden;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(45deg, rgba(59, 130, 246, 0.15), rgba(147, 51, 234, 0.1));
+      z-index: -1;
+      transform: translateZ(-10px);
+    }
+    
+    .container::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.3) 0%, rgba(59, 130, 246, 0) 70%);
+      opacity: 0.1;
+      z-index: -1;
+      animation: pulse 15s infinite alternate;
+    }
+    
+    @keyframes pulse {
+      0% {
+        opacity: 0.05;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.1;
+        transform: scale(1.2);
+      }
+      100% {
+        opacity: 0.05;
+        transform: scale(1);
+      }
+    }
+    
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      font-weight: 600;
+      font-size: 2.5rem;
+      color: #fff;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      display: inline-block;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    h1::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      bottom: -10px;
+      width: 50px;
+      height: 3px;
+      background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+      transform: translateX(-50%);
+      border-radius: 3px;
+    }
+    
+    .input-field {
+      display: flex;
+      margin-bottom: 30px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    
+    .input-field:hover,
+    .input-field:focus-within {
+      border-color: rgba(59, 130, 246, 0.5);
+      box-shadow: 0 5px 20px rgba(59, 130, 246, 0.3);
+    }
+    
+    #task {
+      width: 100%;
+      padding: 15px 20px;
+      border: none;
+      background: transparent;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+    }
+    
+    ::placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .add-btn {
+      background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+      color: white;
+      border: none;
+      padding: 0 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .add-btn:hover {
+      background: linear-gradient(45deg, #2563eb, #7c3aed);
+    }
+    
+    .todo-list {
+      list-style: none;
+      max-height: 50vh;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+    
+    .todo-list::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .todo-list::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+    }
+    
+    .todo-list::-webkit-scrollbar-thumb {
+      background: rgba(59, 130, 246, 0.5);
+      border-radius: 10px;
+    }
+    
+    .todo-item {
+      display: flex;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.5s ease;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .todo-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 5px;
+      height: 100%;
+      background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
+      border-radius: 10px 0 0 10px;
+    }
+    
+    .todo-item:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .todo-text {
+      flex: 1;
+      margin: 0 15px;
+    }
+    
+    .todo-item.completed .todo-text {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+    
+    .checkbox-wrapper {
+      position: relative;
+      width: 22px;
+      height: 22px;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    
+    .todo-checkbox {
+      position: absolute;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+    }
+    
+    .checkmark {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 5px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      transition: all 0.3s ease;
+    }
+    
+    .todo-checkbox:checked ~ .checkmark {
+      background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+      border-color: transparent;
+    }
+    
+    .checkmark::after {
+      content: '';
+      position: absolute;
+      display: none;
+      left: 7px;
+      top: 3px;
+      width: 5px;
+      height: 10px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+    
+    .todo-checkbox:checked ~ .checkmark::after {
+      display: block;
+    }
+    
+    .delete-btn {
+      background: transparent;
+      color: rgba(255, 255, 255, 0.5);
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+    }
+    
+    .delete-btn:hover {
+      color: #ef4444;
+      background: rgba(239, 68, 68, 0.1);
+    }
+    
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      font-size: 0.9rem;
+      color: rgba(255, 255, 255, 0.6);
+    }
+    
+    .filter-btn {
+      background: transparent;
+      border: none;
+      color: rgba(255, 255, 255, 0.5);
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+    
+    .filter-btn:hover,
+    .filter-btn.active {
+      color: white;
+      background: rgba(59, 130, 246, 0.2);
+    }
+    
+    .clear-btn {
+      color: #ef4444;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: all 0.3s ease;
+    }
+    
+    .clear-btn:hover {
+      background: rgba(239, 68, 68, 0.1);
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        padding: 25px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="background">
+    <div class="floating-cube cube1"></div>
+    <div class="floating-cube cube2"></div>
+    <div class="floating-cube cube3"></div>
+    <div class="floating-cube cube4"></div>
+  </div>
+  
+  <div class="container">
+    <h1>Task Master</h1>
+    
+    <div class="input-field">
+      <input type="text" id="task" placeholder="What needs to be done?" autocomplete="off">
+      <button class="add-btn">Add</button>
+    </div>
+    
+    <ul class="todo-list">
+      <!-- Tasks will be added here -->
+    </ul>
+    
+    <div class="stats">
+      <span class="items-left">0 items left</span>
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">All</button>
+        <button class="filter-btn" data-filter="active">Active</button>
+        <button class="filter-btn" data-filter="completed">Completed</button>
+      </div>
+      <button class="clear-btn">Clear completed</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const taskInput = document.getElementById('task');
+      const addBtn = document.querySelector('.add-btn');
+      const todoList = document.querySelector('.todo-list');
+      const itemsLeft = document.querySelector('.items-left');
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const clearBtn = document.querySelector('.clear-btn');
+      
+      let todos = JSON.parse(localStorage.getItem('todos')) || [];
+      let currentFilter = 'all';
+      
+      function updateTodos() {
+        localStorage.setItem('todos', JSON.stringify(todos));
+        renderTodos();
+      }
+      
+      function renderTodos() {
+        todoList.innerHTML = '';
+        
+        let filteredTodos = todos;
+        if (currentFilter === 'active') {
+          filteredTodos = todos.filter(todo => !todo.completed);
+        } else if (currentFilter === 'completed') {
+          filteredTodos = todos.filter(todo => todo.completed);
+        }
+        
+        filteredTodos.forEach(todo => {
+          const li = document.createElement('li');
+          li.className = `todo-item ${todo.completed ? 'completed' : ''}`;
+          li.dataset.id = todo.id;
+          
+          li.innerHTML = `
+            <div class="checkbox-wrapper">
+              <input type="checkbox" class="todo-checkbox" ${todo.completed ? 'checked' : ''}>
+              <span class="checkmark"></span>
+            </div>
+            <span class="todo-text">${todo.text}</span>
+            <button class="delete-btn">×</button>
+          `;
+          
+          todoList.appendChild(li);
+        });
+        
+        const activeTodos = todos.filter(todo => !todo.completed);
+        itemsLeft.textContent = `${activeTodos.length} item${activeTodos.length !== 1 ? 's' : ''} left`;
+      }
+      
+      function addTodo() {
+        const text = taskInput.value.trim();
+        if (text === '') return;
+        
+        const newTodo = {
+          id: Date.now(),
+          text,
+          completed: false
+        };
+        
+        todos.push(newTodo);
+        updateTodos();
+        taskInput.value = '';
+      }
+      
+      function toggleTodo(id) {
+        todos = todos.map(todo => {
+          if (todo.id === id) {
+            return { ...todo, completed: !todo.completed };
+          }
+          return todo;
+        });
+        
+        updateTodos();
+      }
+      
+      function deleteTodo(id) {
+        todos = todos.filter(todo => todo.id !== id);
+        updateTodos();
+      }
+      
+      function clearCompleted() {
+        todos = todos.filter(todo => !todo.completed);
+        updateTodos();
+      }
+      
+      // Event listeners
+      addBtn.addEventListener('click', addTodo);
+      
+      taskInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          addTodo();
+        }
+      });
+      
+      todoList.addEventListener('click', (e) => {
+        const item = e.target.closest('.todo-item');
+        if (!item) return;
+        
+        const id = parseInt(item.dataset.id);
+        
+        if (e.target.classList.contains('delete-btn')) {
+          deleteTodo(id);
+        } else if (e.target.classList.contains('todo-checkbox')) {
+          toggleTodo(id);
+        }
+      });
+      
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentFilter = btn.dataset.filter;
+          renderTodos();
+        });
+      });
+      
+      clearBtn.addEventListener('click', clearCompleted);
+      
+      // Initialize the app
+      renderTodos();
+      
+      // 3D background animation enhancement
+      const background = document.querySelector('.background');
+      
+      function createRandomCube() {
+        const cube = document.createElement('div');
+        const size = Math.random() * 100 + 50;
+        const posX = Math.random() * window.innerWidth;
+        const posY = Math.random() * window.innerHeight;
+        const duration = Math.random() * 20 + 10;
+        const delay = Math.random() * 5;
+        
+        cube.className = 'floating-cube';
+        cube.style.width = `${size}px`;
+        cube.style.height = `${size}px`;
+        cube.style.left = `${posX}px`;
+        cube.style.top = `${posY}px`;
+        cube.style.opacity = `${Math.random() * 0.2 + 0.1}`;
+        cube.style.animationDuration = `${duration}s`;
+        cube.style.animationDelay = `${delay}s`;
+        
+        background.appendChild(cube);
+        
+        setTimeout(() => {
+          background.removeChild(cube);
+          createRandomCube();
+        }, duration * 1000);
+      }
+      
+      // Create some additional random cubes
+      for (let i = 0; i < 3; i++) {
+        setTimeout(() => {
+          createRandomCube();
+        }, i * 3000);
+      }
+      
+      // Subtle parallax effect
+      document.addEventListener('mousemove', (e) => {
+        const mouseX = e.clientX / window.innerWidth;
+        const mouseY = e.clientY / window.innerHeight;
+        
+        document.querySelectorAll('.floating-cube').forEach(cube => {
+          const moveX = (mouseX - 0.5) * 30;
+          const moveY = (mouseY - 0.5) * 30;
+          cube.style.transform = `perspective(1000px) rotateX(${45 + moveY * 0.1}deg) rotateZ(${45 + moveX * 0.1}deg) translateX(${moveX}px) translateY(${moveY}px)`;
+        });
+      });
+    });
+  </script>
+</body>
+</html>
